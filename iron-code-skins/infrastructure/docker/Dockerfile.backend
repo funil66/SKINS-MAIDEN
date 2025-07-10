@@ -1,0 +1,24 @@
+FROM php:8.1-fpm
+
+# Set the working directory
+WORKDIR /var/www
+
+# Copy the composer.lock and composer.json files
+COPY composer.json composer.lock ./
+
+# Install dependencies
+RUN apt-get update && apt-get install -y libzip-dev \
+    && docker-php-ext-install zip \
+    && composer install --no-dev --optimize-autoloader
+
+# Copy the application code
+COPY . .
+
+# Set the permissions for the storage and bootstrap/cache directories
+RUN chown -R www-data:www-data storage bootstrap/cache
+
+# Expose the port the app runs on
+EXPOSE 9000
+
+# Start the PHP FastCGI Process Manager
+CMD ["php-fpm"]

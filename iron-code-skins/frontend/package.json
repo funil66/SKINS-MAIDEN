@@ -1,0 +1,29 @@
+{
+  "name": "iron-code-skins-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for the Iron Code Skins platform",
+  "main": "src/main.js",
+  "scripts": {
+    "serve": "vite",
+    "build": "vite build",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "vue": "^3.2.0",
+    "vue-router": "^4.0.0",
+    "vuex": "^4.0.0",
+    "axios": "^0.21.1"
+  },
+  "devDependencies": {
+    "vite": "^2.0.0",
+    "eslint": "^7.0.0",
+    "eslint-plugin-vue": "^7.0.0"
+  },
+  "keywords": [
+    "vue",
+    "frontend",
+    "iron-code-skins"
+  ],
+  "author": "Allisson Sousa",
+  "license": "MIT"
+}

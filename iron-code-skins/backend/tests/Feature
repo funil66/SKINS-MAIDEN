@@ -1,0 +1,75 @@
+// File: /iron-code-skins/iron-code-skins/backend/tests/Feature/TransactionControllerTest.php
+
+<?php
+
+namespace Tests\Feature;
+
+use Tests\TestCase;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+
+class TransactionControllerTest extends TestCase
+{
+    use RefreshDatabase;
+
+    /** @test */
+    public function it_can_create_a_transaction()
+    {
+        $response = $this->postJson('/api/transactions', [
+            'user_id' => 1,
+            'amount' => 100.00,
+            'status' => 'pending',
+        ]);
+
+        $response->assertStatus(201);
+        $this->assertDatabaseHas('transactions', [
+            'user_id' => 1,
+            'amount' => 100.00,
+            'status' => 'pending',
+        ]);
+    }
+
+    /** @test */
+    public function it_can_retrieve_a_transaction()
+    {
+        $transaction = \App\Models\Transaction::factory()->create();
+
+        $response = $this->getJson('/api/transactions/' . $transaction->id);
+
+        $response->assertStatus(200)
+                 ->assertJson([
+                     'id' => $transaction->id,
+                     'user_id' => $transaction->user_id,
+                     'amount' => $transaction->amount,
+                     'status' => $transaction->status,
+                 ]);
+    }
+
+    /** @test */
+    public function it_can_update_a_transaction()
+    {
+        $transaction = \App\Models\Transaction::factory()->create();
+
+        $response = $this->putJson('/api/transactions/' . $transaction->id, [
+            'status' => 'completed',
+        ]);
+
+        $response->assertStatus(200);
+        $this->assertDatabaseHas('transactions', [
+            'id' => $transaction->id,
+            'status' => 'completed',
+        ]);
+    }
+
+    /** @test */
+    public function it_can_delete_a_transaction()
+    {
+        $transaction = \App\Models\Transaction::factory()->create();
+
+        $response = $this->deleteJson('/api/transactions/' . $transaction->id);
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('transactions', [
+            'id' => $transaction->id,
+        ]);
+    }
+}

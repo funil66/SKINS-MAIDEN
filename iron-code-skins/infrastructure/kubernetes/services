@@ -1,0 +1,48 @@
+# File: /iron-code-skins/iron-code-skins/infrastructure/kubernetes/services
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: iron-code-skins-backend
+  labels:
+    app: iron-code-skins
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8000
+      protocol: TCP
+  selector:
+    app: iron-code-skins-backend
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iron-code-skins-frontend
+  labels:
+    app: iron-code-skins
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 3000
+      protocol: TCP
+  selector:
+    app: iron-code-skins-frontend
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iron-code-skins-webapp-audit
+  labels:
+    app: iron-code-skins
+spec:
+  type: ClusterIP
+  ports:
+    - port: 80
+      targetPort: 8080
+      protocol: TCP
+  selector:
+    app: iron-code-skins-webapp-audit

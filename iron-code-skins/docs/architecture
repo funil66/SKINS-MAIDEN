@@ -1,0 +1,91 @@
+# Iron Code Skins Architecture Documentation
+
+## Project Overview
+The "Iron Code Skins" platform is designed to provide a secure and efficient environment for trading digital assets, specifically skins for CS:GO. The platform aims to address the critical issues of trust and security in peer-to-peer transactions by implementing a legal-tech escrow service.
+
+## Initial Project Structure
+1. **Backend**
+   - **Controllers**: Handle business logic and manage requests.
+   - **Models**: Represent data structures and interactions.
+   - **Services**: Facilitate interactions with external systems (e.g., payment gateways, Steam API, blockchain).
+   - **Middleware**: Process requests and enforce security measures.
+   - **Routes**: Define API and web endpoints for client interactions.
+   - **Tests**: Ensure code quality through unit and feature testing.
+
+2. **Frontend**
+   - **Components**: Reusable UI elements for the application.
+   - **Views**: Different pages of the application, providing user interfaces.
+   - **Router**: Manages navigation between views.
+   - **Store**: Manages application state using Vuex.
+   - **Services**: Handles API requests and responses.
+
+3. **Webapp Audit**
+   - **Components**: UI elements specific to the audit functionalities.
+   - **Crypto**: Logic for cryptographic verification of transactions.
+
+4. **Infrastructure**
+   - **Docker**: Containerization for backend and frontend services.
+   - **Kubernetes**: Orchestration for managing containerized applications.
+   - **Terraform**: Infrastructure as code for provisioning resources.
+
+5. **Documentation**
+   - **API**: Documentation for the backend API endpoints.
+   - **Architecture**: Overview of the system architecture and design decisions.
+   - **SOPs**: Standard Operating Procedures for operational consistency.
+
+## Main Modules
+- **User Management**: Handles user authentication and KYC processes.
+- **Transaction Management**: Manages escrow services and payment processing.
+- **Audit Logging**: Tracks user actions and transactions for compliance and security.
+- **Blockchain Integration**: Implements a ledger of reputation for users.
+- **Compliance**: Ensures adherence to legal standards such as LGPD and ISO certifications.
+
+## Data Models
+- **User**: 
+  - `id`: Unique identifier for the user.
+  - `name`: Full name of the user.
+  - `email`: Email address for communication.
+  - `password`: Hashed password for authentication.
+  - `kyc_status`: Status of the KYC process (e.g., pending, approved).
+
+- **Transaction**: 
+  - `id`: Unique identifier for the transaction.
+  - `user_id`: Identifier for the user involved in the transaction.
+  - `amount`: Amount of the transaction.
+  - `status`: Current status of the transaction (e.g., pending, completed).
+  - `created_at`: Timestamp of when the transaction was created.
+
+- **KYCDocument**: 
+  - `id`: Unique identifier for the KYC document.
+  - `user_id`: Identifier for the user associated with the document.
+  - `document_type`: Type of document submitted (e.g., ID, proof of address).
+  - `document_data`: Encrypted data of the document.
+
+- **AuditLog**: 
+  - `id`: Unique identifier for the audit log entry.
+  - `action`: Description of the action taken (e.g., transaction created).
+  - `user_id`: Identifier for the user who performed the action.
+  - `timestamp`: Time when the action occurred.
+
+## Roadmap for First Technical Deliveries
+1. **Phase 0: Planning & Governance (2 weeks)**
+   - Establish project foundations, metrics, and governance structure.
+
+2. **Phase 1: MVP Premium (Months 1-4)**
+   - Develop and launch the MVP with core functionalities.
+   - Implement user authentication and transaction management.
+   - Create KYC processes and audit logging.
+
+3. **Phase 2: Standard Automated (Months 5-10)**
+   - Automate transaction processes and integrate payment gateways.
+   - Launch the Standard version of the platform.
+
+4. **Phase 3: Ecosystem & LRA (Months 11-14)**
+   - Develop the Ledger of Reputation and integrate blockchain functionalities.
+   - Enhance community features and support.
+
+5. **Phase 4: Scale & Certifications (Months 15-18)**
+   - Optimize infrastructure for scalability.
+   - Obtain ISO 27001 and SOC 2 certifications.
+
+This architecture documentation outlines the foundational structure and strategic roadmap for the "Iron Code Skins" platform, emphasizing security, compliance, and user experience.

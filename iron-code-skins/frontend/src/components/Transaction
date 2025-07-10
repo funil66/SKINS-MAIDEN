@@ -1,0 +1,56 @@
+// File: /iron-code-skins/iron-code-skins/frontend/src/components/Transaction/Transaction.vue
+
+<template>
+  <div class="transaction">
+    <h1>Transaction Details</h1>
+    <div v-if="transaction">
+      <p><strong>ID:</strong> {{ transaction.id }}</p>
+      <p><strong>User ID:</strong> {{ transaction.user_id }}</p>
+      <p><strong>Amount:</strong> {{ transaction.amount }}</p>
+      <p><strong>Status:</strong> {{ transaction.status }}</p>
+      <p><strong>Created At:</strong> {{ transaction.created_at }}</p>
+    </div>
+    <div v-else>
+      <p>Loading transaction details...</p>
+    </div>
+  </div>
+</template>
+
+<script>
+import { ref, onMounted } from 'vue';
+import api from '../../services/api';
+
+export default {
+  name: 'Transaction',
+  setup() {
+    const transaction = ref(null);
+    const transactionId = ref(1); // Example transaction ID
+
+    const fetchTransaction = async () => {
+      try {
+        const response = await api.get(`/transactions/${transactionId.value}`);
+        transaction.value = response.data;
+      } catch (error) {
+        console.error('Error fetching transaction:', error);
+      }
+    };
+
+    onMounted(() => {
+      fetchTransaction();
+    });
+
+    return {
+      transaction,
+    };
+  },
+};
+</script>
+
+<style scoped>
+.transaction {
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+</style>

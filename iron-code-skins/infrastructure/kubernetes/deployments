@@ -1,0 +1,115 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iron-code-skins-backend
+  labels:
+    app: iron-code-skins
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: iron-code-skins
+  template:
+    metadata:
+      labels:
+        app: iron-code-skins
+    spec:
+      containers:
+      - name: backend
+        image: your-docker-repo/iron-code-skins-backend:latest
+        ports:
+        - containerPort: 8000
+        env:
+        - name: DB_CONNECTION
+          value: "mysql"
+        - name: DB_HOST
+          value: "db"
+        - name: DB_PORT
+          value: "3306"
+        - name: DB_DATABASE
+          value: "iron_code_skins"
+        - name: DB_USERNAME
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: username
+        - name: DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: db-credentials
+              key: password
+        - name: APP_ENV
+          value: "production"
+        - name: APP_KEY
+          valueFrom:
+            secretKeyRef:
+              name: app-secrets
+              key: app_key
+        - name: APP_DEBUG
+          value: "false"
+        volumeMounts:
+        - name: backend-storage
+          mountPath: /var/www/html/storage
+      volumes:
+      - name: backend-storage
+        persistentVolumeClaim:
+          claimName: backend-storage-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iron-code-skins-backend
+spec:
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+  selector:
+    app: iron-code-skins
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: iron-code-skins-frontend
+  labels:
+    app: iron-code-skins
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: iron-code-skins
+  template:
+    metadata:
+      labels:
+        app: iron-code-skins
+    spec:
+      containers:
+      - name: frontend
+        image: your-docker-repo/iron-code-skins-frontend:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: API_URL
+          value: "http://iron-code-skins-backend:8000/api"
+      volumeMounts:
+      - name: frontend-storage
+        mountPath: /usr/share/nginx/html
+      volumes:
+      - name: frontend-storage
+        persistentVolumeClaim:
+          claimName: frontend-storage-pvc
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: iron-code-skins-frontend
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 3000
+  selector:
+    app: iron-code-skins
