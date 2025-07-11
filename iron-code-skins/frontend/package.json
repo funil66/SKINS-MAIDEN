@@ -9,15 +9,25 @@
     "lint": "eslint ."
   },
   "dependencies": {
+    "@headlessui/vue": "^1.7.23",
+    "@heroicons/vue": "^2.2.0",
+    "@pinia/nuxt": "^0.11.1",
+    "axios": "^0.21.1",
+    "crypto-js": "^4.2.0",
+    "pinia": "^3.0.3",
+    "tailwindcss": "^4.1.11",
     "vue": "^3.2.0",
     "vue-router": "^4.0.0",
-    "vuex": "^4.0.0",
-    "axios": "^0.21.1"
+    "vuex": "^4.0.0"
   },
   "devDependencies": {
-    "vite": "^2.0.0",
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.16",
+    "autoprefixer": "^10.4.21",
     "eslint": "^7.0.0",
-    "eslint-plugin-vue": "^7.0.0"
+    "eslint-plugin-vue": "^7.0.0",
+    "postcss": "^8.5.6",
+    "vite": "^2.0.0"
   },
   "keywords": [
     "vue",
